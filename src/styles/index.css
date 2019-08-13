@@ -1,0 +1,43 @@
+body,
+html {
+  padding: 0;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+}
+
+.table-row {
+  display: flex;
+}
+
+.table-row:not(:first-child) {
+  margin-top: -1px;
+}
+
+.table-cell {
+  width: 100px;
+  height: 100px;
+  background-color: transparent;
+  border: 1px solid #000;
+  font-size: 50px;
+  cursor: pointer;
+}
+
+.table-cell__winner {
+  color: red;
+}
+
+.table-cell:not(:first-child) {
+  margin-left: -1px;
+}
+
+.current-move {
+  font-weight: bold;
+}
