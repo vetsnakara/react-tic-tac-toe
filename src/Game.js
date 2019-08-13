@@ -57,28 +57,39 @@ export default class Game extends Component {
     const winnerLine = winner ? winner.line : [];
 
     return (
-      <div>
-        <div>{status}</div>
-        <div>
-          <Board
-            squares={squares}
-            onClick={this.handleClick}
-            winnerLine={winnerLine}
-          />
-        </div>
-        <ol>
-          {history.map((move, i) => {
-            const classes = classnames({ "current-move": i === currentMove });
+      <div className="container">
+        <h1 className="main-title">Tic-Tac-Toe</h1>
+        <main className="content">
+          <div className="board">
+            <Board
+              squares={squares}
+              onClick={this.handleClick}
+              winnerLine={winnerLine}
+            />
+          </div>
 
-            return (
-              <li key={i}>
-                <Button className={classes} onClick={() => this.handleJump(i)}>
-                  {i === 0 ? "START" : `MOVE #${i}`}
-                </Button>
-              </li>
-            );
-          })}
-        </ol>
+          <div className="info">
+            <p className="status">{status}</p>
+            <ol>
+              {history.map((move, i) => {
+                const classes = classnames("move-button", {
+                  "current-move": i === currentMove
+                });
+
+                return (
+                  <li key={i}>
+                    <Button
+                      className={classes}
+                      onClick={() => this.handleJump(i)}
+                    >
+                      {i === 0 ? "START" : `MOVE #${i}`}
+                    </Button>
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+        </main>
       </div>
     );
   }
