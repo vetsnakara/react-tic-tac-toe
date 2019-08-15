@@ -30,7 +30,7 @@ ol {
 }
 
 .container {
-  width: 550px;
+  width: 600px;
   margin: 0 auto;
   padding-top: 30px;
 }
@@ -91,12 +91,17 @@ ol {
 }
 
 .table-cell:hover {
-  background-color: gainsboro;
+  background-color: rgba(0, 0, 0, .05);
+}
+
+.table-cell__last {
+  color: lightskyblue;
 }
 
 .table-cell__winner {
   color: red;
 }
+
 
 .table-cell:not(:first-child) {
   margin-left: -1px;
@@ -125,7 +130,6 @@ ol {
 }
 
 .sort__button {
-  background-color: lightblue;
   text-transform: uppercase;
   font-size: 16px;
   width: auto;
@@ -143,4 +147,11 @@ ol {
 
 .current-move {
   font-weight: bold;
+}
+
+.move-buttons {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

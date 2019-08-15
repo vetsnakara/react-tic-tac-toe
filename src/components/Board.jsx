@@ -2,16 +2,18 @@ import React from "react";
 import Button from "./Button";
 import classnames from "classnames";
 
-function Board({ squares, onClick, winnerLine }) {
+function Board({ squares, last, onClick, winnerLine }) {
   return (
     <div className="table">
       {(() => {
         const rows = [];
 
         squares.forEach((square, i) => {
-          const classes = classnames("table-cell", {
-            "table-cell__winner": winnerLine.includes(i)
-          });
+          const classes = classnames(
+            "table-cell",
+            { "table-cell__winner": winnerLine.includes(i) },
+            { "table-cell__last": i === last }
+          );
 
           const rowIndex = Math.floor(i / 3);
 

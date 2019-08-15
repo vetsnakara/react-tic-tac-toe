@@ -25,7 +25,15 @@ export default class Game extends Component {
     squares[i] = xIsNext ? "X" : "O";
 
     this.setState({
-      history: history.concat([{ squares }]),
+      history: history.concat([{
+        squares,
+        lastStep: {
+          num: i,
+          row: Math.floor(i / 3) + 1,
+          col: i % 3 + 1,
+          player: squares[i]
+        }
+      }]),
       xIsNext: !xIsNext,
       currentMove: history.length
     });
@@ -46,7 +54,7 @@ export default class Game extends Component {
 
   render() {
     const { currentMove, history, xIsNext, movesOrderAsc } = this.state;
-    const { squares } = history[currentMove];
+    const { squares, lastStep } = history[currentMove];
     const winner = calculateWinner(squares);
 
     let status;
@@ -63,6 +71,8 @@ export default class Game extends Component {
 
     const winnerLine = winner ? winner.line : [];
 
+    const lastMove = lastStep && lastStep.num;
+
     const moveButtons =
       history.map((move, i) => {
         const classes = classnames("button", {
@@ -75,7 +85,11 @@ export default class Game extends Component {
               className={classes}
               onClick={() => this.handleJump(i)}
             >
-              {i === 0 ? "START" : `MOVE #${i}`}
+              {
+                i === 0
+                  ? "START"
+                  : `${move.lastStep.player}: (${move.lastStep.row}, ${move.lastStep.col})`
+              }
             </Button>
           </li>
         );
@@ -90,6 +104,7 @@ export default class Game extends Component {
           <div className="board">
             <Board
               squares={squares}
+              last={lastMove}
               onClick={this.handleClick}
               winnerLine={winnerLine}
             />
@@ -110,7 +125,7 @@ export default class Game extends Component {
                 }
               </Button>
             </div>
-            <ol>
+            <ol className="move-buttons">
               {moveButtons}
             </ol>
           </div>
