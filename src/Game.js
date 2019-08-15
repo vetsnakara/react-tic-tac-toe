@@ -11,6 +11,7 @@ export default class Game extends Component {
       }
     ],
     xIsNext: true,
+    movesOrderAsc: true,
     currentMove: 0
   };
 
@@ -37,8 +38,14 @@ export default class Game extends Component {
     });
   };
 
+  toggleMovesOrder = () => this.setState(
+    prevState => ({
+      movesOrderAsc: !prevState.movesOrderAsc
+    })
+  );
+
   render() {
-    const { currentMove, history, xIsNext } = this.state;
+    const { currentMove, history, xIsNext, movesOrderAsc } = this.state;
     const { squares } = history[currentMove];
     const winner = calculateWinner(squares);
 
@@ -56,6 +63,26 @@ export default class Game extends Component {
 
     const winnerLine = winner ? winner.line : [];
 
+    const moveButtons =
+      history.map((move, i) => {
+        const classes = classnames("button", {
+          "current-move": i === currentMove
+        });
+
+        return (
+          <li key={i}>
+            <Button
+              className={classes}
+              onClick={() => this.handleJump(i)}
+            >
+              {i === 0 ? "START" : `MOVE #${i}`}
+            </Button>
+          </li>
+        );
+      });
+
+    if (!movesOrderAsc) moveButtons.reverse();
+
     return (
       <div className="container">
         <h1 className="main-title">Tic-Tac-Toe</h1>
@@ -70,23 +97,21 @@ export default class Game extends Component {
 
           <div className="info">
             <p className="status">{status}</p>
+            <div className="sort">
+              <p className="sort__text">Toggle order:</p>
+              <Button
+                className="button sort__button"
+                onClick={this.toggleMovesOrder}
+              >
+                {
+                  movesOrderAsc
+                    ? <i className="fa fa-sort-numeric-asc"></i>
+                    : <i className="fa fa-sort-numeric-desc"></i>
+                }
+              </Button>
+            </div>
             <ol>
-              {history.map((move, i) => {
-                const classes = classnames("move-button", {
-                  "current-move": i === currentMove
-                });
-
-                return (
-                  <li key={i}>
-                    <Button
-                      className={classes}
-                      onClick={() => this.handleJump(i)}
-                    >
-                      {i === 0 ? "START" : `MOVE #${i}`}
-                    </Button>
-                  </li>
-                );
-              })}
+              {moveButtons}
             </ol>
           </div>
         </main>
